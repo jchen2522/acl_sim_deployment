@@ -6,6 +6,7 @@ trap 'echo -e "\nError occurred at line $LINENO: \"$BASH_COMMAND\". Exiting."; r
 
 # Do everything from home folder instead
 mv * ~/
+cd ../
 rm -rf acl_sim_deployment
 cd ~/
 
@@ -15,7 +16,7 @@ cd ~/
 sudo apt update
 sudo apt install git -y
 
-# If want SSH 
+# If want SSH
 # read -p "Enter your Git username: " git_username
 # read -p "Enter your Git email: " git_email
 
@@ -49,7 +50,7 @@ export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrast
 curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
 sudo apt install -y /tmp/ros2-apt-source.deb
 sudo apt update
-sudo apt upgrade -y 
+sudo apt upgrade -y
 sudo apt install -y ros-humble-desktop ros-dev-tools
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 echo "export INIT_X=0." >> ~/.bashrc
@@ -80,7 +81,7 @@ git clone https://github.com/jrached/behavior_selector2.git
 cd ../
 
 # Build packages - order matters!
-source /opt/ros/humble/setup.bash 
+source /opt/ros/humble/setup.bash
 colcon build --packages-select snapstack_msgs2
 source install/setup.bash
 colcon build --packages-skip snapstack_msgs2
@@ -125,7 +126,7 @@ colcon build
 cd ../../ # home
 
 
-# --------------- Install QGC 
+# --------------- Install QGC
 sudo usermod -a -G dialout $USER
 sudo apt-get remove modemmanager -y
 sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
@@ -148,9 +149,3 @@ cd ../../ # home
 echo "Rebooting in 10 seconds... run launch.sh afterwards."
 sleep 10
 sudo reboot
-
-
-
-
-
-
