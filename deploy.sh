@@ -4,6 +4,10 @@
 set -e
 trap 'echo -e "\nError occurred at line $LINENO: \"$BASH_COMMAND\". Exiting."; read -p "Press Enter to exit..."' ERR
 
+# Do everything from home folder instead
+mv * ~/
+rm -rf acl_sim_deployment
+cd ~/
 
 # ------------ Setup Git, ROS2 Humble, vim, terminator, tmux, scipy
 
@@ -76,6 +80,7 @@ git clone https://github.com/jrached/behavior_selector2.git
 cd ../
 
 # Build packages - order matters!
+source /opt/ros/humble/setup.bash 
 colcon build --packages-select snapstack_msgs2
 source install/setup.bash
 colcon build --packages-skip snapstack_msgs2
@@ -111,7 +116,6 @@ mkdir -p bridge_ws/src && cd bridge_ws/src
 git clone https://github.com/jrached/mavros.git
 sudo apt update
 sudo apt install -y ros-humble-mavros
-sudo -E bash -c 'source /opt/ros/humble/setup.bash && ros2 run mavros install_geographiclib_datasets.sh' # not needed?
 rosdep update
 cd ../ # in bridge_ws now
 rosdep install --from-paths src --ignore-src -r -y
@@ -140,7 +144,9 @@ cd ../../ # home
 
 
 
-# Reboot Here, run the other script after reboot.
+# Reboot
+echo "Rebooting in 10 seconds... run launch.sh afterwards."
+sleep 10
 sudo reboot
 
 
